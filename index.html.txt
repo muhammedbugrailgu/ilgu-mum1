@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İLGÜ | Mum & Koku Atölyesi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond (Serif) & Plus Jakarta Sans (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        wood: {
+                            50: '#F8F2EA',
+                            100: '#F1E6D6', /* Ana Rahatlatıcı Açık Odunsu Arka Plan */
+                            200: '#E5D3BC', /* İkincil Odunsu Ton */
+                            300: '#D4B998',
+                            400: '#BE9B73',
+                            700: '#6E4726',
+                            800: '#4E321B',
+                            900: '#2E1D10',
+                            950: '#1C120B', /* Gece Ceviz Ambiyansı */
+                        },
+                        amber: {
+                            750: '#9A4B16',
+                            850: '#69320E',
+                            950: '#2A1810',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ambiyans ve Açık Odunsu Doku */
+        body {
+            transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(212, 185, 152, 0.25) 0%, transparent 55%),
+                radial-gradient(circle at 80% 70%, rgba(190, 155, 115, 0.2) 0%, transparent 60%),
+                repeating-linear-gradient(105deg, rgba(139, 94, 52, 0.025) 0px, rgba(139, 94, 52, 0.025) 2px, transparent 2px, transparent 10px);
+        }
+
+        body.dark {
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(78, 50, 27, 0.25) 0%, transparent 55%),
+                repeating-linear-gradient(105deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 2px, transparent 2px, transparent 12px);
+        }
+
+        /* Gerçekçi 3D Mum Alevi Animasyonu */
+        @keyframes realistic-flicker {
+            0%, 100% { transform: scale(1, 1) rotate(-0.8deg) skewX(-0.5deg); }
+            20% { transform: scale(0.97, 1.04) rotate(1.2deg) skewX(1deg); }
+            40% { transform: scale(1.03, 0.97) rotate(-1.5deg) skewX(-1.2deg); }
+            60% { transform: scale(0.98, 1.05) rotate(0.6deg) skewX(0.5deg); }
+            80% { transform: scale(1.02, 0.99) rotate(-0.4deg) skewX(-0.4deg); }
+        }
+
+        @keyframes inner-core-pulse {
+            0%, 100% { opacity: 0.92; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.06); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.55; }
+            50% { transform: scale(1.1); opacity: 0.75; }
+        }
+
+        @keyframes smoke-wisp {
+            0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0.75; filter: blur(2px); }
+            40% { transform: translateY(-35px) translateX(10px) scale(1.3); opacity: 0.5; filter: blur(4px); }
+            75% { transform: translateY(-75px) translateX(-12px) scale(2); opacity: 0.25; filter: blur(6px); }
+            100% { transform: translateY(-110px) translateX(6px) scale(2.8); opacity: 0; filter: blur(9px); }
+        }
+
+        .flame-3d {
+            transform-origin: 50% 92%;
+            animation: realistic-flicker 2.7s infinite ease-in-out;
+            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .flame-core {
+            transform-origin: 50% 100%;
+            animation: inner-core-pulse 1.5s infinite ease-in-out;
+        }
+
+        .flame-off {
+            opacity: 0 !important;
+            transform: scale(0, 0.1) translateY(15px) !important;
+            pointer-events: none;
+        }
+
+        .ambient-glow {
+            animation: glow-pulse 4s infinite ease-in-out;
+            transition: opacity 0.8s ease;
+        }
+
+        .smoke-particle {
+            animation: smoke-wisp 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar {
+            width: 9px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E5D3BC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9A6B3E;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6E4726;
+        }
+    </style>
+</head>
+<body id="app-body" class="bg-wood-100 text-wood-900 font-sans antialiased selection:bg-amber-800 selection:text-white">
+
+    <!-- Üst Duyuru Bandı -->
+    <div class="bg-wood-900 text-wood-50 text-xs py-2.5 px-4 text-center tracking-wider uppercase font-medium border-b border-amber-500/20">
+        ✨ İLGÜ Atölyesi: 750 TL ve üzeri siparişlerde ücretsiz kargo & her siparişte özel kibrit şişesi hediye ✨
+    </div>
+
+    <!-- Navigasyon -->
+    <header id="navbar" class="sticky top-0 z-40 backdrop-blur-md bg-wood-100/85 border-b border-wood-700/15 transition-colors duration-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo: İLGÜ -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-full bg-wood-200/80 dark:bg-wood-800 border border-amber-800/30 flex items-center justify-center text-amber-800 dark:text-amber-300 group-hover:bg-amber-800 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <i class="ph-fill ph-flame text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-2xl sm:text-3xl font-bold tracking-wider block leading-none">İLGÜ</span>
+                    <span class="text-[10px] tracking-[0.22em] uppercase opacity-75 block mt-0.5">Mum & Koku Atölyesi</span>
+                </div>
+            </a>
+
+            <!-- Menü Linkleri -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#koleksiyon" class="hover:text-amber-700 transition-colors">Koleksiyon</a>
+                <a href="#tasarla" class="hover:text-amber-700 transition-colors flex items-center gap-1.5">
+                    <i class="ph-fill ph-sparkle text-amber-700 dark:text-amber-400"></i> Kendi Mumunu Tasarla
+                </a>
+                <a href="#bakim" class="hover:text-amber-700 transition-colors">Mum Bakım Rehberi</a>
+                <a href="#iletisim" class="hover:text-amber-700 transition-colors">Atölye İletişim</a>
+            </nav>
+
+            <!-- Sağ Aksiyonlar -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Ambiyans Butonu -->
+                <button onclick="toggleCandle()" id="nav-candle-btn" class="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold border border-amber-800/30 bg-wood-200/70 dark:bg-wood-800/80 text-wood-900 dark:text-amber-200 hover:bg-amber-800/15 transition-all shadow-xs" title="Mumu Yak / Söndür">
+                    <i id="nav-flame-icon" class="ph-fill ph-flame text-amber-600 text-base animate-pulse"></i>
+                    <span id="nav-flame-text" class="hidden sm:inline">Alevi Söndür</span>
+                </button>
+
+                <!-- Sepet Butonu -->
+                <button onclick="toggleCart(true)" class="relative p-2.5 rounded-full bg-wood-200/50 dark:bg-wood-800/50 hover:bg-wood-300/60 transition-colors" aria-label="Alışveriş Sepeti">
+                    <i class="ph ph-shopping-bag text-2xl"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-800 text-white text-[11px] font-bold flex items-center justify-center shadow">
+                        1
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO BÖLÜMÜ (Gerçekçi 3D İnteraktif Mum ile) -->
+    <section class="relative overflow-hidden py-14 md:py-20 lg:py-24 border-b border-wood-700/15">
+        <!-- Arka Plan Sıcak Ambiyans Işığı -->
+        <div id="hero-ambient-bg" class="ambient-glow pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] sm:w-[780px] sm:h-[780px] rounded-full bg-gradient-to-tr from-amber-500/30 via-orange-400/15 to-transparent blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Sol Metin Alanı -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-wood-200/90 dark:bg-wood-800/90 border border-amber-800/25 text-wood-800 dark:text-amber-300 text-xs font-semibold tracking-wide shadow-xs">
+                        <span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span>
+                        İLGÜ Atölyesi • %100 Doğal Soya & Odunsu Huzur
+                    </div>
+                    
+                    <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight">
+                        Doğal Ahşabın ve <br>
+                        <span class="italic font-semibold text-amber-800 dark:text-amber-400">Saf Işığın</span> Dinginliği.
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg opacity-85 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        <strong>İLGÜ Mum & Koku Atölyesi</strong>'nde her bir mum, İzmir'deki atölyemizde saf soya mumu, çıtırtılı doğal ahşap fitiller ve botanik esanslarla elde dökülür. İçinizi ısıtacak doğal kokularımızı keşfedin.
+                    </p>
+
+                    <div class="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <a href="#koleksiyon" class="px-8 py-4 rounded-full bg-amber-800 hover:bg-amber-700 text-white font-semibold text-sm tracking-wide transition-all shadow-lg shadow-amber-950/20 flex items-center gap-2">
+                            Koleksiyonu Keşfet <i class="ph-bold ph-arrow-right"></i>
+                        </a>
+                        <a href="#tasarla" class="px-8 py-4 rounded-full bg-wood-200/80 dark:bg-wood-800/80 border border-amber-900/25 hover:border-amber-700 hover:bg-wood-300/60 font-semibold text-sm tracking-wide transition-all flex items-center gap-2">
+                            <i class="ph-fill ph-magic-wand text-amber-700 dark:text-amber-400"></i> Kendi Mumunu Tasarla
+                        </a>
+                    </div>
+
+                    <!-- Küçük Güven Rozetleri -->
+                    <div class="pt-8 grid grid-cols-3 gap-4 border-t border-wood-700/15 max-w-lg mx-auto lg:mx-0 text-left">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-wood-200 dark:bg-wood-800 flex items-center justify-center text-amber-800 dark:text-amber-400 shrink-0">
+                                <i class="ph-fill ph-leaf text-lg"></i>
+                            </div>
+                            <span class="text-xs opacity-85 leading-snug font-medium">Saf Soya & Balmumu</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-wood-200 dark:bg-wood-800 flex items-center justify-center text-amber-800 dark:text-amber-400 shrink-0">
+                                <i class="ph-fill ph-hand-heart text-lg"></i>
+                            </div>
+                            <span class="text-xs opacity-85 leading-snug font-medium">İzmir'de El Dökümü</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-wood-200 dark:bg-wood-800 flex items-center justify-center text-amber-800 dark:text-amber-400 shrink-0">
+                                <i class="ph-fill ph-tree text-lg"></i>
+                            </div>
+                            <span class="text-xs opacity-85 leading-snug font-medium">Ahşap & Pamuk Fitil</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ: Ultra-Gerçekçi 3D SVG İnteraktif Mum Sahnesi -->
+                <div class="lg:col-span-5 flex flex-col items-center justify-center relative">
+                    
+                    <!-- İnteraktif İpucu Balonu -->
+                    <div class="mb-4 px-4 py-2 rounded-full bg-wood-50/90 dark:bg-wood-900/90 backdrop-blur border border-amber-800/25 shadow-sm flex items-center gap-2 text-xs font-semibold">
+                        <i class="ph-fill ph-hand-tap text-amber-700 dark:text-amber-400 text-base animate-bounce"></i>
+                        <span id="candle-hint">Muma dokunarak alevi ve odunsu ambiyansı değiştirin</span>
+                    </div>
+
+                    <!-- Tıklanabilir Gerçekçi Mum Kapsayıcısı -->
+                    <div onclick="toggleCandle()" class="relative cursor-pointer group select-none py-4 px-6 flex flex-col items-center" role="button" tabindex="0" aria-label="Mumu yak veya söndür">
+                        
+                        <!-- Dış Sıcak Alev Halesi -->
+                        <div id="flame-halo" class="ambient-glow absolute top-2 w-64 h-64 rounded-full bg-amber-400/40 blur-3xl pointer-events-none"></div>
+                        <div id="flame-halo-inner" class="ambient-glow absolute top-12 w-36 h-36 rounded-full bg-orange-400/55 blur-2xl pointer-events-none"></div>
+
+                        <!-- Gerçekçi Duman Efekti Alanı -->
+                        <div id="smoke-container" class="absolute top-12 w-20 h-32 pointer-events-none flex justify-center z-30"></div>
+
+                        <!-- ULTRA GERÇEKÇİ 3D SVG MUM -->
+                        <svg viewBox="0 0 320 430" class="w-72 sm:w-80 h-auto drop-shadow-[0_28px_35px_rgba(46,29,16,0.38)] group-hover:scale-[1.015] transition-transform duration-500 overflow-visible">
+                            <defs>
+                                <!-- Alev Gradyanları -->
+                                <radialGradient id="outerFlameGrad" cx="50%" cy="68%" r="55%" fx="50%" fy="75%">
+                                    <stop offset="0%" stop-color="#FFFBEB" stop-opacity="1"/>
+                                    <stop offset="35%" stop-color="#FDE047" stop-opacity="0.96"/>
+                                    <stop offset="70%" stop-color="#F97316" stop-opacity="0.88"/>
+                                    <stop offset="100%" stop-color="#DC2626" stop-opacity="0"/>
+                                </radialGradient>
+                                <linearGradient id="midFlameGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#FEF08A"/>
+                                    <stop offset="55%" stop-color="#FFFBEB"/>
+                                    <stop offset="85%" stop-color="#F59E0B"/>
+                                    <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.75"/>
+                                </linearGradient>
+                                <linearGradient id="blueCoreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+                                    <stop offset="50%" stop-color="#93C5FD" stop-opacity="0.85"/>
+                                    <stop offset="100%" stop-color="#1D4ED8" stop-opacity="0.9"/>
+                                </linearGradient>
+
+                                <!-- Kehribar 3D Cam Kavanoz Gradyanları -->
+                                <linearGradient id="amberGlassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#2A1205"/>
+                                    <stop offset="14%" stop-color="#7C3409"/>
+                                    <stop offset="32%" stop-color="#B45309"/>
+                                    <stop offset="50%" stop-color="#92400E"/>
+                                    <stop offset="72%" stop-color="#5C2406"/>
+                                    <stop offset="90%" stop-color="#3B1704"/>
+                                    <stop offset="100%" stop-color="#1E0C02"/>
+                                </linearGradient>
+
+                                <!-- İç Sıcak Mum Işığı (Yanarken) -->
+                                <radialGradient id="internalWaxGlow" cx="50%" cy="22%" r="60%">
+                                    <stop offset="0%" stop-color="#FBBF24" stop-opacity="0.75"/>
+                                    <stop offset="45%" stop-color="#D97706" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="#451A03" stop-opacity="0"/>
+                                </radialGradient>
+
+                                <!-- Erimiş Sıvı Soya Mumu Havuzu -->
+                                <radialGradient id="meltedWaxPool" cx="50%" cy="50%" r="55%">
+                                    <stop offset="0%" stop-color="#FEF3C7"/>
+                                    <stop offset="45%" stop-color="#FDE68A"/>
+                                    <stop offset="80%" stop-color="#F59E0B"/>
+                                    <stop offset="100%" stop-color="#B45309"/>
+                                </radialGradient>
+
+                                <!-- Katı Soya Mumu Gövdesi -->
+                                <linearGradient id="solidSoyWax" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#D97706" stop-opacity="0.45"/>
+                                    <stop offset="25%" stop-color="#FEF3C7" stop-opacity="0.65"/>
+                                    <stop offset="50%" stop-color="#FFFBEB" stop-opacity="0.75"/>
+                                    <stop offset="80%" stop-color="#FDE68A" stop-opacity="0.55"/>
+                                    <stop offset="100%" stop-color="#92400E" stop-opacity="0.45"/>
+                                </linearGradient>
+
+                                <!-- Cam Yansıma Şeritleri -->
+                                <linearGradient id="glassSpecularLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55"/>
+                                    <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.22"/>
+                                    <stop offset="85%" stop-color="#FFFFFF" stop-opacity="0.06"/>
+                                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+                                </linearGradient>
+
+                                <!-- Doğal Meşe Ahşap Kaide -->
+                                <linearGradient id="oakCoasterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#3E2412"/>
+                                    <stop offset="20%" stop-color="#7C4D2B"/>
+                                    <stop offset="50%" stop-color="#9C6639"/>
+                                    <stop offset="80%" stop-color="#6E4223"/>
+                                    <stop offset="100%" stop-color="#2E1A0C"/>
+                                </linearGradient>
+
+                                <!-- Dokulu Kağıt Etiket -->
+                                <linearGradient id="texturedPaperLabel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FAF5EC"/>
+                                    <stop offset="50%" stop-color="#F3E9D8"/>
+                                    <stop offset="100%" stop-color="#E6D5BC"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- 1. AHŞAP ALT KAİDE (Meşe Taban) -->
+                            <ellipse cx="160" cy="402" rx="108" ry="15" fill="rgba(0,0,0,0.35)"/>
+                            <path d="M62,380 C62,372 258,372 258,380 L254,396 C254,406 66,406 66,396 Z" fill="url(#oakCoasterGrad)"/>
+                            <ellipse cx="160" cy="380" rx="98" ry="12" fill="#8B5A2B" stroke="#A67546" stroke-width="1"/>
+
+                            <!-- 2. KEHRİBAR CAM KAVANOZ GÖVDESİ -->
+                            <path d="M68,132 L68,358 C68,378 96,388 160,388 C224,388 252,378 252,358 L252,132 Z" fill="url(#amberGlassBody)" stroke="rgba(251,191,36,0.28)" stroke-width="1.2"/>
+
+                            <!-- Kavanoz Kalın Cam Taban Katmanı -->
+                            <path d="M70,348 C70,366 100,375 160,375 C220,375 250,366 250,348 L252,358 C252,378 224,388 160,388 C96,388 68,378 68,358 Z" fill="rgba(20,8,2,0.8)" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
+                            <ellipse cx="160" cy="364" rx="76" ry="8" fill="rgba(251,191,36,0.18)"/>
+
+                            <!-- 3. İÇERİDEKİ SOYA MUMU & YANAN IŞIK GEÇİŞİ -->
+                            <path id="svg-solid-wax" d="M73,165 L73,345 C73,360 104,368 160,368 C216,368 247,360 247,345 L247,165 Z" fill="url(#solidSoyWax)" opacity="0.5"/>
+                            <path id="jar-inner-glow" d="M72,155 L72,330 C72,350 104,360 160,360 C216,360 248,350 248,330 L248,155 Z" fill="url(#internalWaxGlow)" class="transition-opacity duration-700"/>
+
+                            <!-- 4. ERİMİŞ SIVI MUM HAVUZU (Üst Eliptik Yüzey) -->
+                            <ellipse id="wax-pool" cx="160" cy="162" rx="87" ry="15" fill="url(#meltedWaxPool)" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+                            <!-- Fitil Çevresi Sıvı Işık Yansıması -->
+                            <ellipse id="wax-pool-center" cx="160" cy="162" rx="34" ry="6" fill="#FFFBEB" opacity="0.65" class="transition-opacity duration-700"/>
+
+                            <!-- 5. KAVANOZ AĞZI 3D CAM HALKALARI (Rim) -->
+                            <ellipse cx="160" cy="132" rx="92" ry="16" fill="rgba(120,53,15,0.55)" stroke="rgba(254,243,199,0.55)" stroke-width="2"/>
+                            <ellipse cx="160" cy="132" rx="87" ry="13.5" fill="rgba(42,18,5,0.35)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+
+                            <!-- 6. GERÇEKÇİ DOKULU FİTİL VE KOR NOKTASI -->
+                            <!-- Fitil Gölgesi -->
+                            <ellipse cx="160" cy="163" rx="6" ry="2.2" fill="rgba(69,26,3,0.6)"/>
+                            <!-- Örgülü Pamuk/Ahşap Fitil -->
+                            <path d="M157.5,163 C157.5,152 158.5,144 159,136 L161.5,136 C162,144 162.5,152 162.5,163 Z" fill="#1C1917" stroke="#44403C" stroke-width="0.6"/>
+                            <!-- Sönmüş Kor Noktası (Ember) -->
+                            <circle id="wick-ember" cx="160" cy="137" r="2.6" fill="#F97316" opacity="0" class="transition-opacity duration-700" filter="drop-shadow(0 0 6px #EF4444)"/>
+
+                            <!-- 7. GERÇEKÇİ 3 KATMANLI ALEV -->
+                            <g id="candle-flame" class="flame-3d">
+                                <!-- Dış Turuncu/Altın Yumuşak Hale -->
+                                <path d="M160,54 C140,82 135,112 146,130 C151,138 169,138 174,130 C185,112 180,82 160,54 Z" fill="url(#outerFlameGrad)"/>
+                                <!-- Orta Parlak Sarı/Krem Alev Gövdesi -->
+                                <path d="M160,64 C146,88 143,114 151,129 C155,135 165,135 169,129 C177,114 174,88 160,64 Z" fill="url(#midFlameGrad)" class="flame-core"/>
+                                <!-- İç Mavi/Beyaz Sıcak Çekirdek -->
+                                <path d="M160,104 C154,114 153,125 156,132 C158,135 162,135 164,132 C167,125 166,114 160,104 Z" fill="url(#blueCoreGrad)"/>
+                                <!-- Alev Ucu Parlama Noktası -->
+                                <ellipse cx="160" cy="96" rx="4.5" ry="12" fill="#FFFFFF" opacity="0.85"/>
+                            </g>
+
+                            <!-- 8. İLGÜ KABARTMALI LÜKS ETİKET -->
+                            <g transform="translate(96, 198)">
+                                <!-- Etiket Gölgesi -->
+                                <rect x="2" y="3" width="128" height="134" rx="4" fill="rgba(0,0,0,0.35)"/>
+                                <!-- Ana Kağıt Gövdesi -->
+                                <rect x="0" y="0" width="128" height="134" rx="3" fill="url(#texturedPaperLabel)" stroke="#B48A5A" stroke-width="1.2"/>
+                                <!-- İç Altın Çerçeve -->
+                                <rect x="6" y="6" width="116" height="122" rx="2" fill="none" stroke="#8C5A2B" stroke-width="0.7" stroke-dasharray="180 4"/>
+
+                                <!-- Üst Seri Bilgisi -->
+                                <text x="14" y="21" font-family="Plus Jakarta Sans" font-size="6.5" font-weight="600" letter-spacing="1.5" fill="#6E4726">SERİ NO. 01</text>
+                                <text x="114" y="21" font-family="Plus Jakarta Sans" font-size="6.5" font-weight="600" letter-spacing="1.2" fill="#6E4726" text-anchor="end">220G</text>
+                                <line x1="12" y1="26" x2="116" y2="26" stroke="#8C5A2B" stroke-width="0.5" opacity="0.45"/>
+
+                                <!-- İLGÜ Marka Başlığı -->
+                                <text x="64" y="45" font-family="Cormorant Garamond" font-size="16" font-weight="700" letter-spacing="4" fill="#2E1D10" text-anchor="middle">İLGÜ</text>
+                                <text x="64" y="54" font-family="Plus Jakarta Sans" font-size="5.2" font-weight="600" letter-spacing="2.2" fill="#8C5A2B" text-anchor="middle">MUM &amp; KOKU ATÖLYESİ</text>
+
+                                <!-- Koku Adı -->
+                                <text x="64" y="76" font-family="Cormorant Garamond" font-size="15.5" font-weight="700" letter-spacing="0.8" fill="#1C120B" text-anchor="middle">SANDAL AĞACI</text>
+                                <text x="64" y="91" font-family="Cormorant Garamond" font-size="14" font-weight="700" letter-spacing="0.8" fill="#1C120B" text-anchor="middle">&amp; KEHRİBAR</text>
+                                <text x="64" y="103" font-family="Cormorant Garamond" font-style="italic" font-size="8.5" fill="#6E4726" text-anchor="middle">Odunsu, Sıcak &amp; Huzurlu</text>
+
+                                <line x1="12" y1="111" x2="116" y2="111" stroke="#8C5A2B" stroke-width="0.5" opacity="0.45"/>
+                                <text x="64" y="121" font-family="Plus Jakarta Sans" font-size="5.5" font-weight="600" letter-spacing="1.4" fill="#5C3A1D" text-anchor="middle">İZMİR • EL DÖKÜMÜ SOYA MUMU</text>
+                            </g>
+
+                            <!-- 9. ÖN CAM 3D PARLAMA VE YANSIMALAR (Specular Highlights) -->
+                            <path d="M77,144 C82,146 88,147 93,147 L93,352 C87,350 81,347 77,344 Z" fill="url(#glassSpecularLeft)"/>
+                            <path d="M236,146 L241,144 L241,342 L236,345 Z" fill="url(#glassSpecularLeft)" opacity="0.65"/>
+                            <!-- Kavanoz Omuz Parlaması -->
+                            <path d="M75,138 Q160,152 245,138" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                    <!-- Durum Göstergesi -->
+                    <div class="text-center mt-1">
+                        <span id="ambient-status-badge" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest opacity-80">
+                            <span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span> Mum Yanıyor • Açık Odunsu Sıcak Ambiyans
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KOLEKSİYON & FİLTRELEME BÖLÜMÜ -->
+    <section id="koleksiyon" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <span class="text-xs uppercase tracking-[0.22em] text-amber-800 dark:text-amber-400 font-bold">İLGÜ İmza Serisi</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-normal mt-2">Gerçekçi Koku Koleksiyonumuz</h2>
+            </div>
+            
+            <!-- Kategori Filtre Butonları -->
+            <div id="filter-buttons" class="flex flex-wrap gap-2">
+                <button onclick="filterProducts('Tümü')" data-filter="Tümü" class="filter-btn active px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-amber-800 text-white shadow-sm">
+                    Tümü
+                </button>
+                <button onclick="filterProducts('Odunsu')" data-filter="Odunsu" class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-wood-200/80 dark:bg-wood-800 hover:bg-wood-300">
+                    🪵 Odunsu
+                </button>
+                <button onclick="filterProducts('Çiçeksi')" data-filter="Çiçeksi" class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-wood-200/80 dark:bg-wood-800 hover:bg-wood-300">
+                    🌸 Çiçeksi
+                </button>
+                <button onclick="filterProducts('Ferah')" data-filter="Ferah" class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-wood-200/80 dark:bg-wood-800 hover:bg-wood-300">
+                    🍃 Ferah
+                </button>
+                <button onclick="filterProducts('Baharatlı')" data-filter="Baharatlı" class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-wood-200/80 dark:bg-wood-800 hover:bg-wood-300">
+                    🍂 Baharatlı
+                </button>
+            </div>
+        </div>
+
+        <!-- Ürün Grid -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- JS ile gerçekçi 3D SVG mumlarla doldurulacak -->
+        </div>
+    </section>
+
+    <!-- KENDİ MUMUNU TASARLA (İNTERAKTİF ATÖLYE) -->
+    <section id="tasarla" class="py-20 bg-wood-200/65 dark:bg-wood-900/70 border-y border-wood-700/15 transition-colors duration-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="px-4 py-1.5 rounded-full bg-amber-800/15 text-amber-800 dark:text-amber-300 text-xs uppercase tracking-widest font-bold">İLGÜ Kişiselleştirilmiş Deneyim</span>
+                <h2 class="font-serif text-4xl sm:text-5xl mt-3">Kendi Mumunu Tasarla</h2>
+                <p class="text-sm sm:text-base opacity-80 mt-3">
+                    Kavanoz cam renginden doğal balmumu bazına, çıtırtılı ahşap fitilden üzerindeki özel İLGÜ etiket mesajına kadar kendi mumunuzu canlı 3D önizleme ile oluşturun.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                
+                <!-- Sol: Canlı Gerçekçi 3D Mum Önizleme Kartı -->
+                <div class="lg:col-span-5 lg:sticky lg:top-28 bg-wood-50 dark:bg-wood-900 rounded-3xl p-8 border border-wood-700/20 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute top-4 right-4 text-[11px] font-semibold px-3 py-1 rounded-full bg-amber-800/15 text-amber-900 dark:text-amber-300">
+                        3D Canlı Önizleme
+                    </div>
+
+                    <!-- Canlı 3D SVG Kavanoz Grafiği -->
+                    <div class="my-4 relative flex flex-col items-center">
+                        <!-- Canlı Alev Halesi -->
+                        <div class="ambient-glow absolute top-2 w-40 h-40 rounded-full bg-amber-400/35 blur-2xl pointer-events-none"></div>
+
+                        <svg viewBox="0 0 260 340" class="w-56 sm:w-64 h-auto drop-shadow-2xl overflow-visible">
+                            <defs>
+                                <linearGradient id="customJarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop id="c-jar-stop1" offset="0%" stop-color="#2A1205"/>
+                                    <stop id="c-jar-stop2" offset="28%" stop-color="#9A4B16"/>
+                                    <stop id="c-jar-stop3" offset="55%" stop-color="#78350F"/>
+                                    <stop id="c-jar-stop4" offset="100%" stop-color="#1E0C02"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Ahşap Taban -->
+                            <ellipse cx="130" cy="318" rx="82" ry="11" fill="rgba(0,0,0,0.28)"/>
+                            <path d="M54,302 L206,302 L202,315 C202,322 58,322 58,315 Z" fill="url(#oakCoasterGrad)"/>
+
+                            <!-- Kavanoz Gövdesi -->
+                            <path d="M58,105 L58,288 C58,303 82,311 130,311 C178,311 202,303 202,288 L202,105 Z" fill="url(#customJarGrad)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+
+                            <!-- İç Balmumu Katmanı -->
+                            <path id="custom-svg-wax-body" d="M62,130 L62,280 C62,293 85,300 130,300 C175,300 198,293 198,280 L198,130 Z" fill="#FDFBF7" opacity="0.38" class="transition-colors duration-500"/>
+                            <!-- Erimiş Üst Balmumu Havuzu -->
+                            <ellipse id="custom-svg-wax-top" cx="130" cy="130" rx="68" ry="11" fill="#FDFBF7" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" class="transition-colors duration-500"/>
+
+                            <!-- Kavanoz Ağzı Cam Rim -->
+                            <ellipse cx="130" cy="105" rx="72" ry="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.45)" stroke-width="1.6"/>
+
+                            <!-- Fitil (Pamuk veya Çıtırtılı Ahşap) -->
+                            <rect id="custom-svg-wick" x="128.5" y="108" width="3" height="22" rx="1" fill="#1C1917"/>
+
+                            <!-- 3D Alev -->
+                            <g class="flame-3d">
+                                <path d="M130,44 C115,66 111,90 120,104 C124,110 136,110 140,104 C149,90 145,66 130,44 Z" fill="url(#outerFlameGrad)"/>
+                                <path d="M130,54 C120,72 118,92 124,103 C127,108 133,108 136,103 C142,92 140,72 130,54 Z" fill="url(#midFlameGrad)"/>
+                                <path d="M130,85 C126,92 125,100 127,105 C129,107 131,107 133,105 C135,100 134,92 130,85 Z" fill="url(#blueCoreGrad)"/>
+                            </g>
+
+                            <!-- Canlı İLGÜ Etiketi -->
+                            <g transform="translate(76, 158)">
+                                <rect x="2" y="3" width="108" height="108" rx="3" fill="rgba(0,0,0,0.3)"/>
+                                <rect x="0" y="0" width="108" height="108" rx="3" fill="url(#texturedPaperLabel)" stroke="#B48A5A" stroke-width="1"/>
+                                <rect x="5" y="5" width="98" height="98" rx="2" fill="none" stroke="#8C5A2B" stroke-width="0.6"/>
+                                <text x="54" y="22" font-family="Cormorant Garamond" font-size="13" font-weight="700" letter-spacing="3" fill="#2E1D10" text-anchor="middle">İLGÜ</text>
+                                <text x="54" y="30" font-family="Plus Jakarta Sans" font-size="4.8" font-weight="600" letter-spacing="1.6" fill="#8C5A2B" text-anchor="middle">ÖZEL TASARIM ATÖLYESİ</text>
+                                <line x1="12" y1="35" x2="96" y2="35" stroke="#8C5A2B" stroke-width="0.4" opacity="0.5"/>
+                                <line x1="12" y1="86" x2="96" y2="86" stroke="#8C5A2B" stroke-width="0.4" opacity="0.5"/>
+                            </g>
+
+                            <!-- Cam Sol Parlama -->
+                            <path d="M65,115 L78,117 L78,285 L65,280 Z" fill="url(#glassSpecularLeft)"/>
+                        </svg>
+
+                        <!-- Etiket Üzeri Dinamik HTML Katmanı (Uzun metinlerin güzel kırılması için) -->
+                        <div class="pointer-events-none absolute top-[186px] sm:top-[212px] w-36 px-2 text-center">
+                            <p id="preview-label-title" class="font-serif font-bold text-xs sm:text-sm text-wood-950 leading-tight line-clamp-2">Huzurlu Akşamlar</p>
+                            <p id="preview-label-scent" class="text-[9px] italic text-amber-800 mt-0.5 font-serif truncate">Vanilya & Paçuli</p>
+                            <p id="preview-label-meta" class="text-[7px] uppercase tracking-wider text-wood-700 mt-1.5 font-semibold truncate">Doğal Soya • Pamuk Fitil</p>
+                        </div>
+                    </div>
+
+                    <!-- Seçim Özeti & Fiyat -->
+                    <div class="w-full pt-5 border-t border-wood-700/15 flex items-center justify-between">
+                        <div class="text-left">
+                            <span class="text-xs opacity-75 block">Yanma Süresi: ~50 Saat</span>
+                            <span id="custom-price-display" class="font-serif text-3xl font-bold text-amber-800 dark:text-amber-400">420 ₺</span>
+                        </div>
+                        <button onclick="addCustomCandleToCart()" class="px-6 py-3.5 rounded-full bg-amber-800 hover:bg-amber-700 text-white text-sm font-semibold transition-all shadow-lg flex items-center gap-2">
+                            <i class="ph-bold ph-shopping-bag-open text-lg"></i> Tasarımı Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sağ: Özelleştirme Adımları -->
+                <div class="lg:col-span-7 space-y-8 bg-wood-50 dark:bg-wood-900 p-6 sm:p-8 rounded-3xl border border-wood-700/20 shadow-sm">
+                    
+                    <!-- 1. Kavanoz Rengi -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider font-bold mb-3 opacity-85">1. 3D Cam Kavanoz Rengi Seçin</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="jar-options">
+                            <button onclick="setCustomOption('jar', 'Antik Kehribar', ['#2A1205','#9A4B16','#78350F','#1E0C02'], 0, this)" class="custom-opt-jar active p-3 rounded-2xl border-2 border-amber-800 bg-amber-500/10 flex flex-col items-center gap-2 text-xs font-semibold transition-all">
+                                <span class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-600 to-amber-950 shadow-inner border border-white/30"></span>
+                                <span>Antik Kehribar</span>
+                                <span class="text-[10px] opacity-65">Standart</span>
+                            </button>
+                            <button onclick="setCustomOption('jar', 'Mat Gece Siyahı', ['#09090B','#3F3F46','#27272A','#09090B'], 25, this)" class="custom-opt-jar p-3 rounded-2xl border border-wood-700/20 hover:border-amber-700/60 flex flex-col items-center gap-2 text-xs font-semibold transition-all">
+                                <span class="w-8 h-8 rounded-full bg-gradient-to-br from-zinc-600 to-zinc-950 shadow-inner border border-white/20"></span>
+                                <span>Mat Siyah</span>
+                                <span class="text-[10px] opacity-65">+25 ₺</span>
+                            </button>
+                            <button onclick="setCustomOption('jar', 'Buzlu Sedir Beji', ['#78716C','#E7E5E4','#D6D3D1','#57534E'], 20, this)" class="custom-opt-jar p-3 rounded-2xl border border-wood-700/20 hover:border-amber-700/60 flex flex-col items-center gap-2 text-xs font-semibold transition-all">
+                                <span class="w-8 h-8 rounded-full bg-gradient-to-br from-stone-100 to-stone-400 shadow-inner border border-stone-400"></span>
+                                <span>Buzlu Bej</span>
+                                <span class="text-[10px] opacity-65">+20 ₺</span>
+                            </button>
+                            <button onclick="setCustomOption('jar', 'Orman Zümrüdü', ['#022C22','#047857','#064E3B','#022C22'], 30, this)" class="custom-opt-jar p-3 rounded-2xl border border-wood-700/20 hover:border-amber-700/60 flex flex-col items-center gap-2 text-xs font-semibold transition-all">
+                                <span class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-950 shadow-inner border border-white/20"></span>
+                                <span>Zümrüt Yeşili</span>
+                                <span class="text-[10px] opacity-65">+30 ₺</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Balmumu Türü -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider font-bold mb-3 opacity-85">2. Doğal Balmumu Bazı</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button onclick="setCustomOption('wax', 'Doğal Soya', '#FDFBF7', 0, this)" class="custom-opt-wax active p-3.5 rounded-2xl border-2 border-amber-800 bg-amber-500/10 text-left transition-all">
+                                <div class="font-semibold text-sm flex justify-between">
+                                    <span>%100 Doğal Soya</span>
+                                    <span class="text-xs text-amber-800 dark:text-amber-400">Standart</span>
+                                </div>
+                                <p class="text-xs opacity-75 mt-1">Temiz ve yavaş yanış, vegan içerik.</p>
+                            </button>
+                            <button onclick="setCustomOption('wax', 'Saf Arı Balmumu', '#FCD34D', 45, this)" class="custom-opt-wax p-3.5 rounded-2xl border border-wood-700/20 hover:border-amber-700/60 text-left transition-all">
+                                <div class="font-semibold text-sm flex justify-between">
+                                    <span>Saf Arı Balmumu</span>
+                                    <span class="text-xs text-amber-800 dark:text-amber-400">+45 ₺</span>
+                                </div>
+                                <p class="text-xs opacity-75 mt-1">Doğal altın tonu ve hafif bal aroması.</p>
+                            </button>
+                            <button onclick="setCustomOption('wax', 'Hindistan Cevizi', '#FFFBEB', 60, this)" class="custom-opt-wax p-3.5 rounded-2xl border border-wood-700/20 hover:border-amber-700/60 text-left transition-all">
+                                <div class="font-semibold text-sm flex justify-between">
+                                    <span>Hindistan Cevizi</span>
+                                    <span class="text-xs text-amber-800 dark:text-amber-400">+60 ₺</span>
+                                </div>
+                                <p class="text-xs opacity-75 mt-1">İpeksi doku ve yüksek koku yayılımı.</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Fitil Tipi -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider font-bold mb-3 opacity-85">3. Fitil Deneyimi</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="setCustomOption('wick', 'Pamuk Fitil', 'cotton', 0, this)" class="custom-opt-wick active p-3.5 rounded-2xl border-2 border-amber-800 bg-amber-500/10 flex items-center justify-between transition-all">
+                                <div class="text-left">
+                                    <div class="font-semibold text-sm">Örgü Organik Pamuk Fitil</div>
+                                    <div class="text-xs opacity-75">Sessiz, dengeli ve berrak alev</div>
+                                </div>
+                                <span class="text-xs font-semibold text-amber-800 dark:text-amber-400">Standart</span>
+                            </button>
+                            <button onclick="setCustomOption('wick', 'Ahşap Çıtırtılı Fitil', 'wood', 35, this)" class="custom-opt-wick p-3.5 rounded-2xl border border-wood-700/20 hover:border-amber-700/60 flex items-center justify-between transition-all">
+                                <div class="text-left">
+                                    <div class="font-semibold text-sm flex items-center gap-1">🔥 Ahşap Çıtırtılı Fitil</div>
+                                    <div class="text-xs opacity-75">Şömine çıtırtısı veren odunsu yanış</div>
+                                </div>
+                                <span class="text-xs font-semibold text-amber-800 dark:text-amber-400">+35 ₺</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Koku Esansı ve Etiket Mesajı -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="custom-scent-select" class="block text-xs uppercase tracking-wider font-bold mb-2 opacity-85">4. Koku Esansı Seçimi</label>
+                            <select id="custom-scent-select" onchange="updateCustomScent(this.value)" class="w-full px-4 py-3 rounded-xl bg-wood-100 dark:bg-wood-800 border border-wood-700/25 text-sm font-medium focus:outline-none focus:border-amber-700">
+                                <option value="Vanilya & Paçuli">Madagaskar Vanilyası & Paçuli</option>
+                                <option value="Sandal Ağacı & Sedir">Sandal Ağacı & Himalaya Sediri</option>
+                                <option value="Fransız Lavantası & Adaçayı">Fransız Lavantası & Beyaz Adaçayı</option>
+                                <option value="Bergamot & Deniz Tuzu">Kalabriya Bergamotu & Deniz Tuzu</option>
+                                <option value="Tarçın & Karanfil">Seylan Tarçını, Portakal & Karanfil</option>
+                                <option value="Yasemin & Beyaz Misk">Gece Yasemini & Beyaz Misk</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="custom-label-input" class="block text-xs uppercase tracking-wider font-bold mb-2 opacity-85">5. İLGÜ Etiketi Üzeri Özel Mesaj</label>
+                            <input id="custom-label-input" type="text" maxlength="28" value="Huzurlu Akşamlar" oninput="updateCustomLabel(this.value)" placeholder="Örn: İyi ki Doğdun..." class="w-full px-4 py-3 rounded-xl bg-wood-100 dark:bg-wood-800 border border-wood-700/25 text-sm font-medium focus:outline-none focus:border-amber-700">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MUM BAKIM REHBERİ -->
+    <section id="bakim" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+            <span class="text-xs uppercase tracking-[0.2em] text-amber-800 dark:text-amber-400 font-bold">Uzun Ömürlü Deneyim</span>
+            <h2 class="font-serif text-4xl sm:text-5xl mt-2">İLGÜ Mum Bakım Rehberi</h2>
+            <p class="text-sm sm:text-base opacity-80 mt-3">
+                Doğal soya mumlarınızın ilk günkü gibi temiz yanması ve kokusunu son damlasına kadar koruyabilmesi için 4 altın kural.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="p-7 rounded-3xl bg-wood-50/90 dark:bg-wood-900/80 border border-wood-700/15 hover:-translate-y-1 transition-transform shadow-xs">
+                <div class="w-12 h-12 rounded-2xl bg-amber-800 text-white flex items-center justify-center text-2xl mb-5 shadow-md">
+                    <i class="ph ph-hourglass-medium"></i>
+                </div>
+                <span class="text-xs font-bold tracking-widest uppercase text-amber-800 dark:text-amber-400">01. İlk Yanış Hafızası</span>
+                <h3 class="font-serif text-2xl font-semibold mt-1 mb-2">En Az 2 Saat Yakın</h3>
+                <p class="text-xs sm:text-sm opacity-80 leading-relaxed">
+                    Mumunuzu ilk kez yaktığınızda, üst yüzeyin kenarlara kadar tamamen sıvılaşmasını bekleyin. Bu, "tünel oluşumunu" engeller.
+                </p>
+            </div>
+
+            <div class="p-7 rounded-3xl bg-wood-50/90 dark:bg-wood-900/80 border border-wood-700/15 hover:-translate-y-1 transition-transform shadow-xs">
+                <div class="w-12 h-12 rounded-2xl bg-amber-800 text-white flex items-center justify-center text-2xl mb-5 shadow-md">
+                    <i class="ph ph-scissors"></i>
+                </div>
+                <span class="text-xs font-bold tracking-widest uppercase text-amber-800 dark:text-amber-400">02. Fitil Boyu</span>
+                <h3 class="font-serif text-2xl font-semibold mt-1 mb-2">5 mm Kuralı</h3>
+                <p class="text-xs sm:text-sm opacity-80 leading-relaxed">
+                    Her yakıştan önce soğumuş fitilin ucunu yaklaşık 0.5 cm olacak şekilde kısaltın. Bu işlem is oluşumunu önler ve alevi dengeler.
+                </p>
+            </div>
+
+            <div class="p-7 rounded-3xl bg-wood-50/90 dark:bg-wood-900/80 border border-wood-700/15 hover:-translate-y-1 transition-transform shadow-xs">
+                <div class="w-12 h-12 rounded-2xl bg-amber-800 text-white flex items-center justify-center text-2xl mb-5 shadow-md">
+                    <i class="ph ph-wind"></i>
+                </div>
+                <span class="text-xs font-bold tracking-widest uppercase text-amber-800 dark:text-amber-400">03. Doğru Konum</span>
+                <h3 class="font-serif text-2xl font-semibold mt-1 mb-2">Hava Akımından Koruyun</h3>
+                <p class="text-xs sm:text-sm opacity-80 leading-relaxed">
+                    Mumunuzu doğrudan rüzgar veya klima önüne koymayın. Sabit bir alev, esansiyel yağların odaya eşit dağılmasını sağlar.
+                </p>
+            </div>
+
+            <div class="p-7 rounded-3xl bg-wood-50/90 dark:bg-wood-900/80 border border-wood-700/15 hover:-translate-y-1 transition-transform shadow-xs">
+                <div class="w-12 h-12 rounded-2xl bg-amber-800 text-white flex items-center justify-center text-2xl mb-5 shadow-md">
+                    <i class="ph ph-bell-simple"></i>
+                </div>
+                <span class="text-xs font-bold tracking-widest uppercase text-amber-800 dark:text-amber-400">04. Nazik Söndürme</span>
+                <h3 class="font-serif text-2xl font-semibold mt-1 mb-2">Üflemeyin, Kapatın</h3>
+                <p class="text-xs sm:text-sm opacity-80 leading-relaxed">
+                    Alevi üflemek yerine mum söndürücü çan veya kavanoz kapağı kullanın; böylece duman kokusu hoş esansı bastırmaz.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATÖLYE HİKAYESİ & İLETİŞİM BANNER -->
+    <section id="iletisim" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="rounded-3xl bg-gradient-to-br from-wood-800 via-wood-900 to-wood-950 text-wood-50 p-8 sm:p-14 relative overflow-hidden shadow-2xl border border-amber-500/20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+                <div class="lg:col-span-7 space-y-5">
+                    <span class="text-xs uppercase tracking-[0.25em] text-amber-400 font-semibold">İLGÜ Felsefesi & Atölye</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl leading-tight">
+                        Doğaya Saygılı, <span class="italic text-amber-300">İçinizi Rahatlatan</span> Odunsu Dokunuş.
+                    </h2>
+                    <p class="text-sm sm:text-base text-wood-100/85 leading-relaxed font-light">
+                        Endüstriyel parafin mumların aksine, <strong>İLGÜ Mum & Koku Atölyesi</strong>'nde yalnızca yenilenebilir kaynaklardan elde edilen %100 doğal soya mumu kullanıyoruz. Kavanozlarımız mumunuz bittikten sonra da yaşam alanınıza sıcaklık katmaya devam eder.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-8">
+                        <div>
+                            <span class="font-serif text-3xl sm:text-4xl font-bold text-amber-400 block">%100</span>
+                            <span class="text-xs opacity-80">Doğal Soya & Botanik Özler</span>
+                        </div>
+                        <div>
+                            <span class="font-serif text-3xl sm:text-4xl font-bold text-amber-400 block">İzmir</span>
+                            <span class="text-xs opacity-80">Çiğli Butik El Üretimi</span>
+                        </div>
+                        <div>
+                            <span class="font-serif text-3xl sm:text-4xl font-bold text-amber-400 block">50+ Saat</span>
+                            <span class="text-xs opacity-80">Uzun ve Temiz Yanış</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ: Atölye İletişim Kartı -->
+                <div class="lg:col-span-5 bg-wood-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-amber-500/25 space-y-5 shadow-xl">
+                    <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-700/30 border border-amber-400/30 flex items-center justify-center text-amber-300">
+                            <i class="ph-fill ph-map-pin-line text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-2xl font-bold text-white">Atölye İletişim</h3>
+                            <p class="text-xs text-amber-300/80">İLGÜ Mum & Koku Atölyesi</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <i class="ph-fill ph-navigation-arrow text-amber-400 text-lg mt-0.5 shrink-0"></i>
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-amber-300/70 block font-semibold">Adres</span>
+                                <p class="text-wood-50 font-medium leading-relaxed">
+                                    İzmir Çiğli Balatçık Çiğli KYK Yurdu No: 1
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <i class="ph-fill ph-envelope-simple text-amber-400 text-lg mt-0.5 shrink-0"></i>
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-amber-300/70 block font-semibold">E-Posta</span>
+                                <a href="mailto:muhammedbugrailgu7@gmail.com" class="text-amber-300 hover:underline font-medium break-all">
+                                    muhammedbugrailgu7@gmail.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dekoratif Işık -->
+            <div class="absolute -right-20 -bottom-20 w-96 h-96 rounded-full bg-amber-500/20 blur-3xl pointer-events-none"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-wood-700/20 bg-wood-200/50 dark:bg-wood-950/80 py-14 mt-12 text-sm transition-colors duration-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="space-y-3 md:col-span-2">
+                <div class="flex items-center gap-2.5">
+                    <i class="ph-fill ph-flame text-2xl text-amber-800 dark:text-amber-400"></i>
+                    <span class="font-serif text-2xl font-bold tracking-wider">İLGÜ</span>
+                </div>
+                <p class="opacity-80 max-w-sm text-xs sm:text-sm leading-relaxed">
+                    İLGÜ Mum & Koku Atölyesi — El yapımı doğal soya mumları ve botanik ev kokuları. Her alevde dinginlik, her nefeste doğallık.
+                </p>
+                <p class="text-xs opacity-65 pt-2">© 2026 İLGÜ Mum & Koku Atölyesi. Tüm hakları saklıdır.</p>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-wider text-xs mb-3 text-amber-900 dark:text-amber-400">Keşfet</h4>
+                <ul class="space-y-2 text-xs sm:text-sm opacity-85">
+                    <li><a href="#koleksiyon" class="hover:underline">Tüm Mumlar</a></li>
+                    <li><a href="#tasarla" class="hover:underline">Kendi Mumunu Tasarla</a></li>
+                    <li><a href="#bakim" class="hover:underline">Mum Bakım Rehberi</a></li>
+                    <li><a href="#iletisim" class="hover:underline">Atölye İletişim</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-wider text-xs mb-3 text-amber-900 dark:text-amber-400">Atölye İletişim</h4>
+                <ul class="space-y-2.5 text-xs sm:text-sm opacity-90">
+                    <li class="flex items-start gap-2">
+                        <i class="ph-fill ph-map-pin text-amber-800 dark:text-amber-400 mt-0.5 shrink-0"></i>
+                        <span>İzmir Çiğli Balatçık Çiğli KYK Yurdu No: 1</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="ph-fill ph-envelope text-amber-800 dark:text-amber-400 shrink-0"></i>
+                        <a href="mailto:muhammedbugrailgu7@gmail.com" class="hover:underline break-all">muhammedbugrailgu7@gmail.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SAĞDAN AÇILIR ALIŞVERİŞ SEPETİ (DRAWER) -->
+    <div id="cart-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-wood-50 dark:bg-wood-900 text-wood-900 dark:text-wood-50 z-50 shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Sepet Başlık -->
+        <div class="p-6 border-b border-wood-700/15 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <i class="ph-fill ph-shopping-bag text-2xl text-amber-800 dark:text-amber-400"></i>
+                <h3 class="font-serif text-2xl font-bold">İLGÜ Sepetiniz</h3>
+            </div>
+            <button onclick="toggleCart(false)" class="p-2 rounded-full hover:bg-wood-200 dark:hover:bg-wood-800 transition-colors" aria-label="Sepeti Kapat">
+                <i class="ph ph-x text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Ücretsiz Kargo İlerleme Çubuğu -->
+        <div class="px-6 py-3 bg-wood-200/70 dark:bg-wood-800/70 border-b border-wood-700/15 text-xs">
+            <p id="free-shipping-text" class="font-medium mb-1.5">Ücretsiz kargo için sepetinize ürün ekleyin.</p>
+            <div class="w-full h-1.5 bg-wood-300 dark:bg-wood-700 rounded-full overflow-hidden">
+                <div id="free-shipping-bar" class="h-full bg-amber-800 dark:bg-amber-500 transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Sepet Ürün Listesi -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- JS ile doldurulacak -->
+        </div>
+
+        <!-- Sepet Alt Toplam & Sipariş -->
+        <div class="p-6 border-t border-wood-700/15 bg-wood-100/80 dark:bg-wood-950/70 space-y-4">
+            <div class="space-y-1.5 text-sm">
+                <div class="flex justify-between opacity-75">
+                    <span>Ara Toplam</span>
+                    <span id="cart-subtotal">0 ₺</span>
+                </div>
+                <div class="flex justify-between opacity-75">
+                    <span>Kargo</span>
+                    <span id="cart-shipping">Ücretsiz</span>
+                </div>
+                <div class="flex justify-between font-serif text-2xl font-bold pt-2 border-t border-wood-700/15">
+                    <span>Toplam</span>
+                    <span id="cart-total" class="text-amber-800 dark:text-amber-400">0 ₺</span>
+                </div>
+            </div>
+            <button onclick="checkoutOrder()" class="w-full py-4 rounded-full bg-amber-800 hover:bg-amber-700 text-white font-semibold text-sm tracking-wide transition-all shadow-lg flex items-center justify-center gap-2">
+                <i class="ph-bold ph-check-circle text-lg"></i> Siparişi Tamamla
+            </button>
+        </div>
+    </aside>
+
+    <!-- BİLDİRİM TOAST MESAJI -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full bg-wood-900 text-wood-50 text-xs sm:text-sm font-medium shadow-xl border border-amber-500/30 flex items-center gap-2.5 pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
+        <i class="ph-fill ph-sparkle text-amber-400 text-lg"></i>
+        <span id="toast-message">Ürün sepete eklendi</span>
+    </div>
+
+    <!-- JAVASCRIPT UYGULAMA MANTIĞI -->
+    <script>
+        // --- 1. ÜRÜN VERİTABANI (Gerçekçi 3D Cam Renkleri ile) ---
+        const products = [
+            {
+                id: 'ilgu-01',
+                name: 'Sandal Ağacı & Kehribar',
+                category: 'Odunsu',
+                burnTime: '50 Saat',
+                weight: '220g',
+                price: 380,
+                badge: 'Çok Satan',
+                jarColors: ['#2A1205', '#9A4B16', '#78350F', '#1E0C02'],
+                waxColor: '#FDE68A',
+                notes: {
+                    top: 'Bergamot, Kakule',
+                    middle: 'Sıcak Kehribar, Tütsü',
+                    base: 'Sandal Ağacı, Vetiver'
+                },
+                desc: 'Akşam saatlerinde zihni dinginleştiren derin, sıcak ve meditatif odunsu harman.'
+            },
+            {
+                id: 'ilgu-02',
+                name: 'Gece Yasemini & Neroli',
+                category: 'Çiçeksi',
+                burnTime: '45 Saat',
+                weight: '200g',
+                price: 360,
+                badge: 'Yeni Hasat',
+                jarColors: ['#2E0714', '#881337', '#4C0519', '#1F040D'],
+                waxColor: '#FFF1F2',
+                notes: {
+                    top: 'Portakal Çiçeği, Mandalina',
+                    middle: 'Gece Yasemini, Ylang Ylang',
+                    base: 'Beyaz Misk, Vanilya'
+                },
+                desc: 'Ege bahçelerinin ılık yaz gecelerindeki büyüleyici çiçek esintisi.'
+            },
+            {
+                id: 'ilgu-03',
+                name: 'Ege İnciri & Deniz Tuzu',
+                category: 'Ferah',
+                burnTime: '45 Saat',
+                weight: '200g',
+                price: 350,
+                badge: 'İzmir Serisi',
+                jarColors: ['#022C22', '#065F46', '#064E3B', '#011C15'],
+                waxColor: '#ECFDF5',
+                notes: {
+                    top: 'Yeşil İncir Yaprağı, Ozon',
+                    middle: 'İncir Sütü, Deniz Tuzu',
+                    base: 'Beyaz Sedir, Yosun'
+                },
+                desc: 'Sabah güneşinde taze koparılmış yeşil incir yaprakları ve ferah kıyı rüzgarı.'
+            },
+            {
+                id: 'ilgu-04',
+                name: 'Tarçın Kabuğu & Karanfil',
+                category: 'Baharatlı',
+                burnTime: '55 Saat',
+                weight: '240g',
+                price: 410,
+                badge: 'Atölye Özel',
+                jarColors: ['#3B0D06', '#9A3412', '#7C2D12', '#260803'],
+                waxColor: '#FFEDD5',
+                notes: {
+                    top: 'Kan Portakalı, Zencefil',
+                    middle: 'Seylan Tarçını, Karanfil',
+                    base: 'Tonka Fasulyesi, Akçaağaç'
+                },
+                desc: 'Serin günlerde evinizi saran sıcak baharat ve odunsu fırın kokusu.'
+            },
+            {
+                id: 'ilgu-05',
+                name: 'Dumanlı Ud & Paçuli',
+                category: 'Odunsu',
+                burnTime: '60 Saat',
+                weight: '250g',
+                price: 460,
+                badge: 'Ahşap Fitil',
+                jarColors: ['#09090B', '#3F3F46', '#27272A', '#09090B'],
+                waxColor: '#F5F5F4',
+                notes: {
+                    top: 'Pembe Biber, Safran',
+                    middle: 'Kamboçya Udu, Paçuli',
+                    base: 'Deri, Koyu Kehribar'
+                },
+                desc: 'Ahşap fitilin şömine çıtırtısıyla bütünleşen sofistike, gizemli ve lüks koku.'
+            },
+            {
+                id: 'ilgu-06',
+                name: 'Fransız Lavantası & Adaçayı',
+                category: 'Ferah',
+                burnTime: '45 Saat',
+                weight: '200g',
+                price: 350,
+                badge: 'Uyku Ritüeli',
+                jarColors: ['#1E1B4B', '#4338CA', '#312E81', '#0F0D26'],
+                waxColor: '#EEF2FF',
+                notes: {
+                    top: 'Okaliptüs, Bergamot',
+                    middle: 'Provence Lavantası, Adaçayı',
+                    base: 'Papatya, Sedir Ağacı'
+                },
+                desc: 'Uyku öncesi veya dinlenme anlarında stresi azaltan saf aromaterapi etkisi.'
+            }
+        ];
+
+        // --- 2. ÜRÜN KARTLARI İÇİN GERÇEKÇİ 3D SVG MUM ÜRETİCİ ---
+        function generateRealisticCardCandleSVG(product) {
+            const [c1, c2, c3, c4] = product.jarColors;
+            const gradId = `jarGrad-${product.id}`;
+            return `
+                <svg viewBox="0 0 200 250" class="w-40 h-48 drop-shadow-[0_18px_20px_rgba(46,29,16,0.28)] group-hover:scale-105 transition-transform duration-500 overflow-visible">
+                    <defs>
+                        <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="${c1}"/>
+                            <stop offset="28%" stop-color="${c2}"/>
+                            <stop offset="60%" stop-color="${c3}"/>
+                            <stop offset="100%" stop-color="${c4}"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Ahşap Altlık -->
+                    <ellipse cx="100" cy="234" rx="64" ry="8" fill="rgba(0,0,0,0.25)"/>
+                    <path d="M42,222 L158,222 L155,232 C155,237 45,237 45,232 Z" fill="url(#oakCoasterGrad)"/>
+                    
+                    <!-- 3D Cam Kavanoz -->
+                    <path d="M45,76 L45,212 C45,223 64,229 100,229 C136,229 155,223 155,212 L155,76 Z" fill="url(#${gradId})" stroke="rgba(255,255,255,0.25)" stroke-width="0.9"/>
+                    
+                    <!-- İç Sıcak Işık & Erimiş Mum Yüzeyi -->
+                    <ellipse cx="100" cy="94" rx="52" ry="8.5" fill="${product.waxColor}" opacity="0.9" stroke="rgba(255,255,255,0.5)" stroke-width="0.6"/>
+                    <ellipse cx="100" cy="76" rx="55" ry="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.45)" stroke-width="1.3"/>
+                    
+                    <!-- Fitil -->
+                    <rect x="98.8" y="78" width="2.4" height="16" rx="1" fill="#1C1917"/>
+                    
+                    <!-- 3D Canlı Alev -->
+                    <g class="flame-3d">
+                        <path d="M100,28 C88,46 85,64 92,75 C95,80 105,80 108,75 C115,64 112,46 100,28 Z" fill="url(#outerFlameGrad)"/>
+                        <path d="M100,36 C92,50 90,66 95,74 C97,78 103,78 105,74 C110,66 108,50 100,36 Z" fill="url(#midFlameGrad)"/>
+                        <path d="M100,60 C97,66 96,72 98,76 C99,77 101,77 102,76 C104,72 103,66 100,60 Z" fill="url(#blueCoreGrad)"/>
+                    </g>
+
+                    <!-- İLGÜ Etiketi -->
+                    <g transform="translate(57, 115)">
+                        <rect x="1.5" y="2" width="86" height="82" rx="2.5" fill="rgba(0,0,0,0.28)"/>
+                        <rect x="0" y="0" width="86" height="82" rx="2.5" fill="url(#texturedPaperLabel)" stroke="#B48A5A" stroke-width="0.9"/>
+                        <rect x="4" y="4" width="78" height="74" rx="1.5" fill="none" stroke="#8C5A2B" stroke-width="0.5"/>
+                        <text x="43" y="18" font-family="Cormorant Garamond" font-size="11" font-weight="700" letter-spacing="2.5" fill="#2E1D10" text-anchor="middle">İLGÜ</text>
+                        <line x1="10" y1="23" x2="76" y2="23" stroke="#8C5A2B" stroke-width="0.4" opacity="0.5"/>
+                        <text x="43" y="42" font-family="Cormorant Garamond" font-size="10" font-weight="700" fill="#1C120B" text-anchor="middle">${product.name.split('&')[0]}</text>
+                        <text x="43" y="54" font-family="Cormorant Garamond" font-size="9.5" font-weight="700" fill="#6E4726" text-anchor="middle">&amp; ${product.name.split('&')[1] || ''}</text>
+                        <text x="43" y="70" font-family="Plus Jakarta Sans" font-size="5" font-weight="600" letter-spacing="1.2" fill="#5C3A1D" text-anchor="middle">${product.weight} • DOĞAL SOYA</text>
+                    </g>
+
+                    <!-- Cam Sol Yansıma -->
+                    <path d="M51,85 L61,87 L61,210 L51,206 Z" fill="url(#glassSpecularLeft)"/>
+                </svg>
+            `;
+        }
+
+        // --- 3. İNTERAKTİF HERO MUM & AMBİYANS KONTROLÜ ---
+        let isCandleLit = true;
+
+        function toggleCandle() {
+            isCandleLit = !isCandleLit;
+            const body = document.getElementById('app-body');
+            const navbar = document.getElementById('navbar');
+            const flame = document.getElementById('candle-flame');
+            const halo = document.getElementById('flame-halo');
+            const haloInner = document.getElementById('flame-halo-inner');
+            const jarGlow = document.getElementById('jar-inner-glow');
+            const waxCenter = document.getElementById('wax-pool-center');
+            const heroBg = document.getElementById('hero-ambient-bg');
+            const ember = document.getElementById('wick-ember');
+            const statusBadge = document.getElementById('ambient-status-badge');
+            const navText = document.getElementById('nav-flame-text');
+            const navIcon = document.getElementById('nav-flame-icon');
+
+            if (isCandleLit) {
+                // Mumu Yak (Açık Odunsu Sıcak Mod)
+                flame.classList.remove('flame-off');
+                halo.style.opacity = '1';
+                haloInner.style.opacity = '1';
+                jarGlow.style.opacity = '1';
+                waxCenter.style.opacity = '0.65';
+                heroBg.style.opacity = '0.6';
+                ember.setAttribute('opacity', '0');
+
+                body.classList.remove('dark', 'bg-wood-950', 'text-wood-50');
+                body.classList.add('bg-wood-100', 'text-wood-900');
+                navbar.classList.remove('bg-wood-950/85', 'border-white/10');
+                navbar.classList.add('bg-wood-100/85', 'border-wood-700/15');
+
+                statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span> Mum Yanıyor • Açık Odunsu Sıcak Ambiyans`;
+                navText.textContent = 'Alevi Söndür';
+                navIcon.className = 'ph-fill ph-flame text-amber-600 text-base animate-pulse';
+                showToast('İLGÜ mumu yakıldı, odunsu sıcak ambiyans aktif ✨');
+            } else {
+                // Mumu Söndür (Koyu Ceviz Gece Modu + Gerçekçi Duman)
+                flame.classList.add('flame-off');
+                halo.style.opacity = '0';
+                haloInner.style.opacity = '0';
+                jarGlow.style.opacity = '0';
+                waxCenter.style.opacity = '0.15';
+                heroBg.style.opacity = '0.12';
+                ember.setAttribute('opacity', '1');
+
+                createSmokeEffect();
+
+                body.classList.add('dark', 'bg-wood-950', 'text-wood-50');
+                body.classList.remove('bg-wood-100', 'text-wood-900');
+                navbar.classList.add('bg-wood-950/85', 'border-white/10');
+                navbar.classList.remove('bg-wood-100/85', 'border-wood-700/15');
+
+                statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-stone-500"></span> Mum Söndürüldü • Gece Ceviz Dinginliği Modu`;
+                navText.textContent = 'Mumu Yak';
+                navIcon.className = 'ph ph-flame text-amber-400 text-base';
+                showToast('Mum söndürüldü, huzurlu gece ambiyansına geçildi 🌙');
+            }
+        }
+
+        function createSmokeEffect() {
+            const container = document.getElementById('smoke-container');
+            container.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const puff = document.createElement('div');
+                    puff.className = 'smoke-particle absolute bottom-0 w-5 h-5 rounded-full bg-stone-300/60';
+                    puff.style.left = `${35 + (i % 3) * 8}%`;
+                    container.appendChild(puff);
+                }, i * 190);
+            }
+        }
+
+        // --- 4. KOLEKSİYON LİSTELEME VE FİLTRELEME ---
+        function renderProducts(category = 'Tümü') {
+            const grid = document.getElementById('product-grid');
+            const filtered = category === 'Tümü'
+                ? products
+                : products.filter(p => p.category === category);
+
+            grid.innerHTML = filtered.map(product => `
+                <article class="group rounded-3xl bg-wood-50/90 dark:bg-wood-900/90 border border-wood-700/15 dark:border-white/10 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <!-- Üst Görsel / Gerçekçi 3D Mum İllüstrasyonu -->
+                        <div class="relative h-64 bg-gradient-to-b from-wood-200/70 via-wood-100/30 to-transparent dark:from-wood-800/40 flex items-center justify-center p-6 overflow-hidden">
+                            ${product.badge ? `
+                                <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-amber-800 text-white text-[11px] font-semibold tracking-wider uppercase shadow">
+                                    ${product.badge}
+                                </span>
+                            ` : ''}
+                            <span class="absolute top-4 right-4 px-3 py-1 rounded-full bg-wood-50/90 dark:bg-wood-800 text-[11px] font-semibold border border-wood-700/15">
+                                <i class="ph ph-clock mr-1"></i>${product.burnTime}
+                            </span>
+
+                            <!-- 3D SVG Mum -->
+                            <div class="mt-2">
+                                ${generateRealisticCardCandleSVG(product)}
+                            </div>
+                        </div>
+
+                        <!-- İçerik ve Koku Piramidi -->
+                        <div class="p-6">
+                            <div class="flex items-center justify-between text-xs opacity-75 mb-1">
+                                <span class="uppercase tracking-wider font-bold text-amber-800 dark:text-amber-400">${product.category}</span>
+                                <span class="font-medium">${product.weight} Doğal Soya</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold">${product.name}</h3>
+                            <p class="text-xs sm:text-sm opacity-80 mt-1.5 leading-relaxed">${product.desc}</p>
+
+                            <!-- Koku Notaları Kutusu -->
+                            <div class="mt-4 p-3.5 rounded-2xl bg-wood-100/80 dark:bg-wood-950/70 border border-wood-700/15 space-y-1.5 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="opacity-65 font-semibold">Üst Nota:</span>
+                                    <span class="font-medium text-right">${product.notes.top}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="opacity-65 font-semibold">Kalp Nota:</span>
+                                    <span class="font-medium text-right">${product.notes.middle}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="opacity-65 font-semibold">Alt Nota:</span>
+                                    <span class="font-medium text-right">${product.notes.base}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fiyat & Sepete Ekle -->
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] uppercase opacity-65 block font-medium">Fiyat</span>
+                            <span class="font-serif text-2xl font-bold">${product.price} ₺</span>
+                        </div>
+                        <button onclick="addToCart('${product.id}')" class="px-5 py-3 rounded-full bg-amber-800 hover:bg-amber-700 text-white text-xs font-semibold uppercase tracking-wider transition-all shadow flex items-center gap-2">
+                            <i class="ph-bold ph-plus-circle text-base"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function filterProducts(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.className = 'filter-btn active px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-amber-800 text-white shadow-sm';
+                } else {
+                    btn.className = 'filter-btn px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-wood-200/80 dark:bg-wood-800 hover:bg-wood-300';
+                }
+            });
+            renderProducts(category);
+        }
+
+        // --- 5. KENDİ MUMUNU TASARLA MODÜLÜ ---
+        const customCandle = {
+            basePrice: 420,
+            jarName: 'Antik Kehribar',
+            jarExtra: 0,
+            waxName: 'Doğal Soya',
+            waxExtra: 0,
+            wickName: 'Pamuk Fitil',
+            wickExtra: 0,
+            scent: 'Vanilya & Paçuli',
+            label: 'Huzurlu Akşamlar'
+        };
+
+        function setCustomOption(type, name, visualValue, extraPrice, btnElement) {
+            if (type === 'jar') {
+                customCandle.jarName = name;
+                customCandle.jarExtra = extraPrice;
+                document.getElementById('c-jar-stop1').setAttribute('stop-color', visualValue[0]);
+                document.getElementById('c-jar-stop2').setAttribute('stop-color', visualValue[1]);
+                document.getElementById('c-jar-stop3').setAttribute('stop-color', visualValue[2]);
+                document.getElementById('c-jar-stop4').setAttribute('stop-color', visualValue[3]);
+                highlightSelectedButton('.custom-opt-jar', btnElement);
+            } else if (type === 'wax') {
+                customCandle.waxName = name;
+                customCandle.waxExtra = extraPrice;
+                document.getElementById('custom-svg-wax-body').setAttribute('fill', visualValue);
+                document.getElementById('custom-svg-wax-top').setAttribute('fill', visualValue);
+                highlightSelectedButton('.custom-opt-wax', btnElement);
+            } else if (type === 'wick') {
+                customCandle.wickName = name;
+                customCandle.wickExtra = extraPrice;
+                const wickEl = document.getElementById('custom-svg-wick');
+                if (visualValue === 'wood') {
+                    wickEl.setAttribute('x', '124');
+                    wickEl.setAttribute('width', '12');
+                    wickEl.setAttribute('fill', '#78350F');
+                } else {
+                    wickEl.setAttribute('x', '128.5');
+                    wickEl.setAttribute('width', '3');
+                    wickEl.setAttribute('fill', '#1C1917');
+                }
+                highlightSelectedButton('.custom-opt-wick', btnElement);
+            }
+            updateCustomPreview();
+        }
+
+        function highlightSelectedButton(selector, activeBtn) {
+            document.querySelectorAll(selector).forEach(btn => {
+                btn.classList.remove('border-2', 'border-amber-800', 'bg-amber-500/10');
+                btn.classList.add('border', 'border-wood-700/20');
+            });
+            activeBtn.classList.remove('border', 'border-wood-700/20');
+            activeBtn.classList.add('border-2', 'border-amber-800', 'bg-amber-500/10');
+        }
+
+        function updateCustomScent(val) {
+            customCandle.scent = val;
+            updateCustomPreview();
+        }
+
+        function updateCustomLabel(val) {
+            customCandle.label = val.trim() || 'İLGÜ Özel';
+            updateCustomPreview();
+        }
+
+        function updateCustomPreview() {
+            const total = customCandle.basePrice + customCandle.jarExtra + customCandle.waxExtra + customCandle.wickExtra;
+            document.getElementById('custom-price-display').textContent = `${total} ₺`;
+            document.getElementById('preview-label-title').textContent = customCandle.label;
+            document.getElementById('preview-label-scent').textContent = customCandle.scent;
+            document.getElementById('preview-label-meta').textContent = `${customCandle.waxName} • ${customCandle.wickName}`;
+        }
+
+        function addCustomCandleToCart() {
+            const total = customCandle.basePrice + customCandle.jarExtra + customCandle.waxExtra + customCandle.wickExtra;
+            const customItem = {
+                id: 'custom-' + Date.now(),
+                name: `İLGÜ Özel Tasarım: "${customCandle.label}"`,
+                details: `${customCandle.jarName} • ${customCandle.waxName} • ${customCandle.wickName} • ${customCandle.scent}`,
+                price: total,
+                qty: 1
+            };
+            cart.push(customItem);
+            updateCartUI();
+            toggleCart(true);
+            showToast('Kişisel İLGÜ mum tasarımınız sepete eklendi ✨');
+        }
+
+        // --- 6. ALIŞVERİŞ SEPETİ YÖNETİMİ ---
+        let cart = [
+            {
+                id: 'ilgu-01',
+                name: 'Sandal Ağacı & Kehribar',
+                details: '220g Soya Mumu • 50 Saat',
+                price: 380,
+                qty: 1
+            }
+        ];
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    details: `${product.weight} Soya Mumu • ${product.burnTime}`,
+                    price: product.price,
+                    qty: 1
+                });
+            }
+            updateCartUI();
+            showToast(`"${product.name}" sepete eklendi`);
+        }
+
+        function changeQty(itemId, delta) {
+            const idx = cart.findIndex(item => item.id === itemId);
+            if (idx === -1) return;
+
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const badge = document.getElementById('cart-badge');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const shippingEl = document.getElementById('cart-shipping');
+            const totalEl = document.getElementById('cart-total');
+            const shipText = document.getElementById('free-shipping-text');
+            const shipBar = document.getElementById('free-shipping-bar');
+
+            const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
+            badge.textContent = totalCount;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-64 flex flex-col items-center justify-center text-center opacity-65">
+                        <i class="ph ph-flame text-5xl mb-3"></i>
+                        <p class="font-serif text-xl">Sepetiniz şu an boş</p>
+                        <p class="text-xs mt-1">İLGÜ koleksiyonumuzdan ruhunuza hitap eden bir koku seçin.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="p-4 rounded-2xl bg-wood-100/80 dark:bg-wood-800/70 border border-wood-700/15 flex items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <h4 class="font-serif font-bold text-lg leading-tight">${item.name}</h4>
+                            <p class="text-xs opacity-75">${item.details}</p>
+                            <p class="text-sm font-bold text-amber-800 dark:text-amber-400">${item.price * item.qty} ₺</p>
+                        </div>
+                        <div class="flex items-center gap-2 bg-wood-50 dark:bg-wood-900 px-2.5 py-1.5 rounded-full border border-wood-700/20">
+                            <button onclick="changeQty('${item.id}', -1)" class="w-6 h-6 rounded-full hover:bg-wood-200 dark:hover:bg-wood-700 flex items-center justify-center text-xs font-bold">-</button>
+                            <span class="text-xs font-semibold w-4 text-center">${item.qty}</span>
+                            <button onclick="changeQty('${item.id}', 1)" class="w-6 h-6 rounded-full hover:bg-wood-200 dark:hover:bg-wood-700 flex items-center justify-center text-xs font-bold">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const freeLimit = 750;
+            const shipping = (subtotal === 0 || subtotal >= freeLimit) ? 0 : 65;
+
+            subtotalEl.textContent = `${subtotal} ₺`;
+            shippingEl.textContent = shipping === 0 ? 'Ücretsiz' : `${shipping} ₺`;
+            totalEl.textContent = `${subtotal + shipping} ₺`;
+
+            const progress = Math.min(100, (subtotal / freeLimit) * 100);
+            shipBar.style.width = `${progress}%`;
+            if (subtotal >= freeLimit) {
+                shipText.innerHTML = '🎉 <strong>Tebrikler!</strong> Ücretsiz kargo ve kibrit şişesi hediyeniz aktif.';
+            } else {
+                shipText.innerHTML = `Ücretsiz kargo için <strong>${freeLimit - subtotal} ₺</strong> değerinde daha ürün ekleyin.`;
+            }
+        }
+
+        function toggleCart(open) {
+            const overlay = document.getElementById('cart-overlay');
+            const drawer = document.getElementById('cart-drawer');
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                showToast('Sipariş vermek için sepetinize ürün ekleyin.');
+                return;
+            }
+            cart = [];
+            updateCartUI();
+            toggleCart(false);
+            showToast('Siparişiniz alındı! İLGÜ Atölyesi mumlarınızı özenle hazırlıyor 🕯️✨');
+        }
+
+        // --- 7. TOAST BİLDİRİM FONKSİYONU ---
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const text = document.getElementById('toast-message');
+            text.textContent = message;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 3200);
+        }
+
+        // Sayfa Yüklendiğinde Başlat
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts('Tümü');
+            updateCartUI();
+        });
+    </script>
+</body>
+</html>
