@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="tr" class="scroll-smooth">
 <head>
+<!-- Google SEO ve Arama Motoru Etiketleri -->
+<meta name="description" content="İLGÜ Mum & Koku Atölyesi - İzmir Çiğli'de %100 doğal soya mumu, çıtırtılı ahşap fitil ve kişiye özel mum tasarım stüdyosu.">
+<meta name="keywords" content="İlgü Mum, İzmir mum atölyesi, Çiğli el yapımı mum, doğal soya mumu, kendi mumunu tasarla">
+<meta name="author" content="Muhammed Buğra İlgü">
+<meta name="robots" content="index, follow">
+
+<!-- Sosyal Medya ve WhatsApp Paylaşım Önizlemesi (Open Graph) -->
+<meta property="og:title" content="İLGÜ | El Yapımı Doğal Mum & Koku Atölyesi">
+<meta property="og:description" content="Kendi mumunuzu tasarlayın veya odunsu, çiçeksi ve baharatlı özel koleksiyonumuzu keşfedin.">
+<meta property="og:type" content="website">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İLGÜ | Mum & Koku Atölyesi</title>
